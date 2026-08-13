@@ -1,64 +1,352 @@
-/* MAT 189 starter stylesheet.
-   You do NOT need to touch this file today.
-   Later in this class you will change everything here ~ on purpose,
-   with reasons. Today: edit index.html only. */
+/* ==========================================================================
+   Dylan Chen ~ portfolio
+   --------------------------------------------------------------------------
+   Fluid, full-width layout. Nothing is sized in px: every measurement comes
+   from the root font size (rem), the viewport (vw/vh), the text itself (em/ch)
+   or a percentage. The page therefore grows with the screen instead of
+   sitting in a fixed 42rem column.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design tokens
+   -------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: dark light;
+
+  /* Palette ~ warm ember on cold charcoal */
+  --bg: #0d0d10;
+  --bg-glow-a: #1d1b26;
+  --bg-glow-b: #14161b;
+  --surface: #17171d;
+  --line: #2c2c35;
+  --ink: #ece8e1;
+  --ink-soft: #a49e94;
+  --accent: #e0a04a;
+  --accent-ink: #0d0d10;
+  --shadow: 0 0.75rem 2.5rem rgb(0 0 0 / 0.5);
+
+  /* Type stacks ~ serif display against a neutral sans, mono for the labels */
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
+    "Times New Roman", serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", "SF Mono", Consolas,
+    "Liberation Mono", monospace;
+
+  /* Rhythm */
+  --gutter: clamp(1.25rem, 4vw, 5rem);
+  /* breathing room at the edges */
+  --shell: min(100% - var(--gutter) * 2, 90rem);
+  /* the content width itself   */
+  --gap: clamp(1.5rem, 2.5vw, 3rem);
+  /* space inside a project      */
+  --stack: clamp(4rem, 8vw, 9rem);
+  /* space between projects      */
+  --radius: 0.75rem;
+  --hair: 0.0625rem;
+  /* hairline rule               */
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f4ee;
+    --bg-glow-a: #fffdf7;
+    --bg-glow-b: #ece7dc;
+    --surface: #fffdf8;
+    --line: #dcd5c7;
+    --ink: #191712;
+    --ink-soft: #6b655a;
+    --accent: #a8621b;
+    --accent-ink: #fffdf8;
+    --shadow: 0 0.75rem 2.5rem rgb(60 45 20 / 0.14);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Base
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Fluid root: ~16px on a phone, ~20px on a 1440p display. Because every
+     other size below is in rem/em, the whole page scales with it. */
+  font-size: clamp(1rem, 0.95rem + 0.22vw, 1.25rem);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
-  font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-  line-height: 1.5;
-  color: #1a1a1a;
-  background: #fffef9;
-  max-width: 42rem;
-  /* the centered readable column */
-  margin: 0 auto;
-  padding: 1.5rem;
-}
-
-header {
-  margin: 2rem 0 3rem;
-}
-
-header h1 {
   margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--bg);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-header p {
-  color: #666;
-  margin: 0.25rem 0 0;
+/* A soft fixed wash behind everything so the wide page is not a flat slab. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(80% 60% at 15% -10%, var(--bg-glow-a) 0%, transparent 60%),
+    radial-gradient(70% 55% at 95% 5%, var(--bg-glow-b) 0%, transparent 55%);
 }
 
-.project {
-  margin: 0 0 4rem;
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
-.project h2 {
-  margin: 0 0 0.25rem;
-}
-
-.project .meta {
-  color: #666;
-  font-size: 0.9rem;
-  margin: 0 0 1rem;
-}
-
-figure {
-  margin: 1.5rem 0;
+:focus-visible {
+  outline: 0.15rem solid var(--accent);
+  outline-offset: 0.25rem;
+  border-radius: 0.2rem;
 }
 
 img,
 video {
-  max-width: 100%;
   display: block;
+  max-width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   3. Header
+   -------------------------------------------------------------------------- */
+
+header {
+  width: var(--shell);
+  margin-inline: auto;
+  padding-block: clamp(4rem, 12vh, 9rem) clamp(2.5rem, 6vh, 5rem);
+}
+
+header h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(3rem, 9vw, 8.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+}
+
+header p {
+  margin: clamp(1rem, 2vw, 1.75rem) 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   4. Projects
+   -------------------------------------------------------------------------- */
+
+main {
+  counter-reset: project;
+}
+
+.project {
+  counter-increment: project;
+  width: var(--shell);
+  margin-inline: auto;
+  margin-block: 0 var(--stack);
+  padding-block-start: clamp(2rem, 4vw, 3.5rem);
+  border-block-start: var(--hair) solid var(--line);
+
+  /* Narrow screens: a single column. The wide grid arrives at 60em, below. */
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.project h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.9rem, 3.4vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+/* Decorative running number ~ 01, 02, 03 …
+   Purely CSS; delete this block if you would rather not have it. */
+.project h2::before {
+  content: counter(project, decimal-leading-zero);
+  display: block;
+  margin-block-end: 0.9em;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+}
+
+.project .meta {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.project p:not(.meta) {
+  margin: 0;
+  max-width: 62ch;
+  /* readable measure, even in a very wide column */
+  color: var(--ink);
+}
+
+/* Call-to-action links (the "Play The Descent" heading) as a pill button. */
+.project h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.project h3 a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.9em 1.5em;
+  border: var(--hair) solid var(--accent);
+  border-radius: 100vmax;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--accent);
+  transition: background-color 0.25s ease, color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.project h3 a::after {
+  content: "\2192";
+  /* → */
+  transition: transform 0.25s ease;
+}
+
+.project h3 a:hover,
+.project h3 a:focus-visible {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.project h3 a:hover::after {
+  transform: translateX(0.25em);
+}
+
+/* --------------------------------------------------------------------------
+   5. Media
+   -------------------------------------------------------------------------- */
+
+figure {
+  margin: 0;
+}
+
+figure img,
+.project video {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+figure:hover img {
+  transform: translateY(-0.35rem);
+  box-shadow: 0 1.25rem 3rem rgb(0 0 0 / 0.55);
 }
 
 figcaption {
-  color: #666;
-  font-size: 0.85rem;
-  margin-top: 0.4rem;
+  margin-block-start: 0.9rem;
+  padding-inline-start: 0.8rem;
+  border-inline-start: 0.125rem solid var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
 }
 
+/* --------------------------------------------------------------------------
+   6. Wide layout ~ a 12 column grid per project
+   Title and meta share the top row; media and prose flow two-up beneath it.
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 60em) {
+  .project {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    align-items: start;
+  }
+
+  .project>h2 {
+    grid-column: 1 / 8;
+  }
+
+  .project>.meta {
+    grid-column: 8 / -1;
+    justify-self: end;
+    align-self: end;
+    text-align: end;
+    padding-block-end: 0.35rem;
+  }
+
+  .project>figure,
+  .project>video,
+  .project>h3,
+  .project>p:not(.meta) {
+    grid-column: span 6;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. Footer
+   -------------------------------------------------------------------------- */
+
 footer {
-  margin: 4rem 0 2rem;
-  color: #666;
-  font-size: 0.9rem;
+  width: var(--shell);
+  margin-inline: auto;
+  padding-block: clamp(2rem, 5vw, 3.5rem) clamp(3rem, 7vw, 5rem);
+  border-block-start: var(--hair) solid var(--line);
+  text-align: center;
+}
+
+footer p {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   8. Motion preferences
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
