@@ -24,7 +24,8 @@
   --ink-soft: #a49e94;
   --accent: #e0a04a;
   --accent-ink: #0d0d10;
-  --shadow: 0 0.75rem 2.5rem rgb(0 0 0 / 0.5);
+  --accent-glow: rgb(224 160 74 / 0.3);
+  --shadow: 0 0.75rem 2.5rem rgb(0 0 0 / 0.45);
 
   /* Type stacks ~ serif display against a neutral sans, mono for the labels */
   --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
@@ -59,6 +60,7 @@
     --ink-soft: #6b655a;
     --accent: #a8621b;
     --accent-ink: #fffdf8;
+    --accent-glow: rgb(168 98 27 / 0.28);
     --shadow: 0 0.75rem 2.5rem rgb(60 45 20 / 0.14);
   }
 }
@@ -209,43 +211,53 @@ main {
   color: var(--ink);
 }
 
-/* Call-to-action links (the "Play The Descent" heading) as a pill button. */
+/* Call-to-action links (the "Play The Descent" heading) as a pill button.
+   `order: 1` pushes it past every other child of the section, so the button
+   always lands on its own row at the bottom no matter where it sits in the
+   HTML. See the wide layout below for the full-width row it gets there. */
 .project h3 {
+  order: 1;
   margin: 0;
+  margin-block-start: clamp(0.25rem, 1vw, 1rem);
   font-size: 1rem;
 }
 
 .project h3 a {
   display: inline-flex;
   align-items: center;
-  gap: 0.6em;
-  padding: 0.9em 1.5em;
+  gap: 0.85em;
+  padding: 1.15em 2.4em;
   border: var(--hair) solid var(--accent);
   border-radius: 100vmax;
+  background: var(--accent);
+  box-shadow: 0 0.6rem 1.8rem var(--accent-glow);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.16em;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--accent);
-  transition: background-color 0.25s ease, color 0.25s ease,
-    transform 0.25s ease;
+  color: var(--accent-ink);
+  transition: transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1),
+    filter 0.25s ease;
 }
 
 .project h3 a::after {
   content: "\2192";
   /* → */
+  font-size: 1.25em;
+  line-height: 1;
   transition: transform 0.25s ease;
 }
 
 .project h3 a:hover,
 .project h3 a:focus-visible {
-  background: var(--accent);
-  color: var(--accent-ink);
+  transform: translateY(-0.15rem);
+  filter: brightness(1.08);
 }
 
 .project h3 a:hover::after {
-  transform: translateX(0.25em);
+  transform: translateX(0.3em);
 }
 
 /* --------------------------------------------------------------------------
@@ -263,12 +275,15 @@ figure img,
   border-radius: var(--radius);
   background: var(--surface);
   box-shadow: var(--shadow);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+
+  /* Only `transform` is animated. A box-shadow transition has to repaint a
+     large blurred area every frame, which is what made the lift feel jittery;
+     the shadow is painted with the element, so it rides along for free. */
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 figure:hover img {
-  transform: translateY(-0.35rem);
-  box-shadow: 0 1.25rem 3rem rgb(0 0 0 / 0.55);
+  transform: translateY(-0.4rem);
 }
 
 figcaption {
@@ -307,9 +322,15 @@ figcaption {
 
   .project>figure,
   .project>video,
-  .project>h3,
   .project>p:not(.meta) {
     grid-column: span 6;
+  }
+
+  /* The CTA gets a row to itself at the foot of the section rather than
+     sharing a row with the cover image. */
+  .project>h3 {
+    grid-column: 1 / -1;
+    justify-self: start;
   }
 }
 
