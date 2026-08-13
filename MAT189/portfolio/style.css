@@ -1,0 +1,64 @@
+/* MAT 189 starter stylesheet.
+   You do NOT need to touch this file today.
+   Later in this class you will change everything here ~ on purpose,
+   with reasons. Today: edit index.html only. */
+
+body {
+  font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+  color: #1a1a1a;
+  background: #fffef9;
+  max-width: 42rem;
+  /* the centered readable column */
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+header {
+  margin: 2rem 0 3rem;
+}
+
+header h1 {
+  margin: 0;
+}
+
+header p {
+  color: #666;
+  margin: 0.25rem 0 0;
+}
+
+.project {
+  margin: 0 0 4rem;
+}
+
+.project h2 {
+  margin: 0 0 0.25rem;
+}
+
+.project .meta {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+figure {
+  margin: 1.5rem 0;
+}
+
+img,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+figcaption {
+  color: #666;
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+}
+
+footer {
+  margin: 4rem 0 2rem;
+  color: #666;
+  font-size: 0.9rem;
+}
