@@ -16,8 +16,6 @@
 
   /* Palette ~ warm ember on cold charcoal */
   --bg: #0d0d10;
-  --bg-glow-a: #1d1b26;
-  --bg-glow-b: #14161b;
   --surface: #17171d;
   --line: #2c2c35;
   --ink: #ece8e1;
@@ -26,6 +24,19 @@
   --accent-ink: #0d0d10;
   --accent-glow: rgb(224 160 74 / 0.3);
   --shadow: 0 0.75rem 2.5rem rgb(0 0 0 / 0.45);
+
+  /* Corner-to-corner wash. --tint-a blooms out of the top-left, --tint-b out
+     of the bottom-right.
+
+     Three opacity knobs, and they multiply together:
+       - the last number in --tint-a  = how strong the RED start is
+       - the last number in --tint-b  = how strong the ORANGE end is
+       - --tint-strength              = a master fader over both
+     So the red corner ends up at 0.18 x 1 = 0.18 opaque. Set --tint-b's
+     alpha to 0.5 and the orange end is half the weight of the red one. */
+  --tint-a: rgb(198 47 31 / 1);
+  --tint-b: rgb(245 147 49 / 1);
+  --tint-strength: 0.18;
 
   /* Type stacks ~ serif display against a neutral sans, mono for the labels */
   --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
@@ -52,8 +63,6 @@
 @media (prefers-color-scheme: light) {
   :root {
     --bg: #f7f4ee;
-    --bg-glow-a: #fffdf7;
-    --bg-glow-b: #ece7dc;
     --surface: #fffdf8;
     --line: #dcd5c7;
     --ink: #191712;
@@ -62,6 +71,10 @@
     --accent-ink: #fffdf8;
     --accent-glow: rgb(168 98 27 / 0.28);
     --shadow: 0 0.75rem 2.5rem rgb(60 45 20 / 0.14);
+
+    --tint-a: rgb(224 83 47 / 1);
+    --tint-b: rgb(214 237 9 / 1);
+    --tint-strength: 0.2;
   }
 }
 
@@ -94,16 +107,27 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* A soft fixed wash behind everything so the wide page is not a flat slab. */
+/* A fixed red-to-orange wash running top-left corner to bottom-right corner.
+   Three layers: a diagonal that carries the colour across the page, plus a
+   bloom anchored in each of those two corners so the light reads as radiating
+   from them. All three fade out well before the centre, which is the band the
+   text actually sits in, and `opacity` caps the whole thing so the colour can
+   never overpower the ink. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
+  opacity: var(--tint-strength);
   background:
-    radial-gradient(80% 60% at 15% -10%, var(--bg-glow-a) 0%, transparent 60%),
-    radial-gradient(70% 55% at 95% 5%, var(--bg-glow-b) 0%, transparent 55%);
+    linear-gradient(135deg,
+      var(--tint-a) 0%,
+      transparent 42%,
+      transparent 58%,
+      var(--tint-b) 100%),
+    radial-gradient(75% 75% at 0% 0%, var(--tint-a) 0%, transparent 62%),
+    radial-gradient(75% 75% at 100% 100%, var(--tint-b) 0%, transparent 62%);
 }
 
 ::selection {
