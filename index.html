@@ -12,7 +12,19 @@
 
 <body>
 
-  <header>
+  <!-- Quick navigation. The list is filled in by script.js from the sections
+       in <main>, so a new project block shows up here on its own. Give the
+       section an id if you want a stable link to it; one is generated from the
+       heading otherwise. -->
+  <nav class="rail" aria-label="Sections">
+    <button class="rail__toggle" type="button" aria-expanded="false" aria-controls="rail-list">
+      <span class="rail__bars" aria-hidden="true"></span>
+      <span class="rail__toggle-text">Index</span>
+    </button>
+    <ol class="rail__list" id="rail-list"></ol>
+  </nav>
+
+  <header id="top">
     <h1>Dylan Chen</h1>
     <p>A gallery of a dying athesist</p>
   </header>
@@ -29,7 +41,7 @@
           Delete Larry's leftovers when you are done.
        ============================================================ -->
 
-    <section class="project">
+    <section class="project" id="beach-demo">
       <h2>Beach Demo</h2>
       <p class="meta">Unreal Engine 5 | 2024 | independent | Dylan Chen</p>
       <figure>
@@ -52,7 +64,7 @@
       </p>
     </section>
 
-    <section class="project">
+    <section class="project" id="the-descent">
       <h2>The Descent</h2>
       <p class="meta">Javascript | 2026 | independent | Dylan Chen</p>
       <figure>
@@ -70,7 +82,7 @@
       </p>
     </section>
 
-    <section class="project">
+    <section class="project" id="wood-lantern">
       <h2>Wood Lantern with 3D Printed Handle</h2>
       <p class="meta">Plywood and 3D Printing | 2024 | independent | Dylan Chen</p>
       <figure>
@@ -94,7 +106,7 @@
       </p>
     </section>
 
-    <section class="project">
+    <section class="project" id="musebeats">
       <h2>MuseBeats</h2>
       <p class="meta">Python, klotho-cac package | 2026 | independent | Dylan Chen</p>
       <video controls>
@@ -110,7 +122,7 @@
       </p>
     </section>
 
-    <section class="project">
+    <section class="project" id="turtle-artwork">
       <h2>Randomly Generated Artwork Program</h2>
       <p class="meta">Python, Turtle graphics module | 2024 | independent | Dylan Chen</p>
       <figure>
@@ -130,7 +142,7 @@
       </p>
     </section>
 
-    <section class="project">
+    <section class="project" id="orbhit">
       <h2>Orbhit</h2>
       <p class="meta">Unity, C# | 2024 | Group Project | Dylan Chen, Malachiii, Electrocute Salesman, DOEBOII</p>
       <figure>
@@ -148,7 +160,7 @@
       </p>
     </section>
 
-    <section class="project">
+    <section class="project" id="timekeeper">
       <h2>Timekeeper</h2>
       <p class="meta">Unity, C# | 2024 | Group Project | Dylan Chen, Zura Nero, Electrocute Salesman</p>
       <figure>
@@ -170,6 +182,12 @@
   <footer>
     <p>Dylan Chen ~ yiyuchen.us@gmail.com ~ https://github.com/TOXICXUHUAN ~ https://pandemonium69.itch.io/ ~ 2026</p>
   </footer>
+
+  <a class="to-top" href="#top" title="Back to top" aria-label="Back to top">
+    <span aria-hidden="true">&#8593;</span>
+  </a>
+
+  <script src="script.js"></script>
 
 </body>
 
