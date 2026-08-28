@@ -45,7 +45,7 @@
   var links = [];
 
   if (nav && list && sections.length) {
-    sections.forEach(function (section, i) {
+    sections.forEach(function (section) {
       var heading = section.querySelector('h2');
       if (!heading) return;
 
@@ -57,19 +57,13 @@
         section.id = unique;
       }
 
-      /* The number matches the 01, 02, 03 … counter on the headings. */
-      var number = String(i + 1);
-      if (number.length < 2) number = '0' + number;
-
       var item = document.createElement('li');
       var link = document.createElement('a');
       link.className = 'rail__link';
       link.href = '#' + section.id;
       link.innerHTML =
         '<span class="rail__tick" aria-hidden="true"></span>' +
-        '<span class="rail__num" aria-hidden="true"></span>' +
         '<span class="rail__label"></span>';
-      link.querySelector('.rail__num').textContent = number;
       link.querySelector('.rail__label').textContent = heading.textContent.trim();
 
       item.appendChild(link);

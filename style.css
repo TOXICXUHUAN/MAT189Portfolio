@@ -181,12 +181,7 @@ header p {
    4. Projects
    -------------------------------------------------------------------------- */
 
-main {
-  counter-reset: project;
-}
-
 .project {
-  counter-increment: project;
   width: var(--shell);
   margin-inline: auto;
   margin-block: 0 var(--stack);
@@ -206,19 +201,6 @@ main {
   font-size: clamp(1.9rem, 3.4vw, 3.4rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
-}
-
-/* Decorative running number ~ 01, 02, 03 …
-   Purely CSS; delete this block if you would rather not have it. */
-.project h2::before {
-  content: counter(project, decimal-leading-zero);
-  display: block;
-  margin-block-end: 0.9em;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.3em;
-  color: var(--accent);
 }
 
 .project .meta {
@@ -381,6 +363,27 @@ footer p {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--ink-soft);
+
+  /* The URLs are single unbreakable words. On a very narrow screen they would
+     otherwise push the whole page sideways, so let them break as a last
+     resort ~ this does nothing at any width where they already fit. */
+  overflow-wrap: break-word;
+}
+
+/* The two profile links. They keep the footer's colour and pick up the accent
+   on hover, so the line still reads as one quiet strip of text. */
+footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 0.35em;
+  transition: color 0.25s ease, text-decoration-color 0.25s ease;
+}
+
+footer a:hover,
+footer a:focus-visible {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
 }
 
 /* --------------------------------------------------------------------------
@@ -422,13 +425,13 @@ header {
   list-style: none;
 }
 
-/* Three columns ~ marker, number, title ~ so a title that runs onto a second
-   line wraps under itself instead of under its number. */
+/* Two columns ~ marker, title ~ so a title that runs onto a second line
+   wraps under itself rather than under the marker. */
 .rail__link {
   display: grid;
   /* The marker column is a fixed width so the line can grow inside it
      without nudging the title sideways. */
-  grid-template-columns: 1.9rem auto minmax(0, 1fr);
+  grid-template-columns: 1.9rem minmax(0, 1fr);
   align-items: start;
   column-gap: 0.7rem;
   padding-block: 0.45rem;
@@ -455,13 +458,6 @@ header {
     background-color 0.25s ease, opacity 0.25s ease;
 }
 
-/* Same 01, 02, 03 … as the running number on each project heading. */
-.rail__num {
-  color: var(--accent);
-  opacity: 0.55;
-  transition: opacity 0.25s ease;
-}
-
 .rail__link:hover,
 .rail__link:focus-visible {
   color: var(--ink);
@@ -479,10 +475,6 @@ header {
 .rail__link[aria-current] .rail__tick {
   inline-size: 1.9rem;
   background: var(--accent);
-  opacity: 1;
-}
-
-.rail__link[aria-current] .rail__num {
   opacity: 1;
 }
 
