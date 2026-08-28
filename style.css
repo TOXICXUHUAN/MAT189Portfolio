@@ -234,6 +234,8 @@ main {
   margin: 0;
   max-width: 62ch;
   /* readable measure, even in a very wide column */
+  font-size: 1.1rem;
+  line-height: 1.85;
   color: var(--ink);
 }
 
