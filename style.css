@@ -178,7 +178,92 @@ header p {
 }
 
 /* --------------------------------------------------------------------------
-   4. Projects
+   4. Contact sheet ~ every project at a glance
+   Sits between the header and the projects so the whole body of work is
+   visible in about a screen. A visitor picks what interests them instead of
+   scrolling through all of it to find out what is there.
+   -------------------------------------------------------------------------- */
+
+.sheet {
+  width: var(--shell);
+  margin-inline: auto;
+  margin-block-end: var(--stack);
+}
+
+.sheet__title {
+  margin: 0 0 var(--gap);
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.8rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* auto-fill adds columns as the screen allows; the min() floor keeps two of
+   them side by side even on the narrowest phone, which is the whole point ~
+   one card per row would be just as long as the page it is summarising. */
+.sheet__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(11rem, 45%), 1fr));
+  gap: var(--gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sheet__card {
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+/* A fixed 4:3 crop keeps the grid even ~ the images behind it run from 1:1 to
+   16:9. They are the same files the sections below use, so the browser has
+   them cached by the time you jump to one. */
+.sheet__thumb {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.sheet__card:hover .sheet__thumb,
+.sheet__card:focus-visible .sheet__thumb {
+  transform: translateY(-0.4rem);
+}
+
+.sheet__name {
+  margin-block-start: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.25s ease;
+}
+
+.sheet__card:hover .sheet__name,
+.sheet__card:focus-visible .sheet__name {
+  color: var(--accent);
+}
+
+.sheet__meta {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   5. Projects
    -------------------------------------------------------------------------- */
 
 .project {
@@ -271,7 +356,7 @@ header p {
 }
 
 /* --------------------------------------------------------------------------
-   5. Media
+   6. Media
    -------------------------------------------------------------------------- */
 
 figure {
@@ -282,6 +367,13 @@ figure img,
 .project video {
   width: 100%;
   height: auto;
+
+  /* No single image gets to swallow the screen. `contain` means a shape that
+     would exceed the cap shrinks inside its box rather than being cropped ~
+     it mats itself against --surface instead of losing part of the picture. */
+  max-block-size: 60vh;
+  object-fit: contain;
+
   border-radius: var(--radius);
   background: var(--surface);
   box-shadow: var(--shadow);
@@ -307,7 +399,7 @@ figcaption {
 }
 
 /* --------------------------------------------------------------------------
-   6. Wide layout ~ a 12 column grid per project
+   7. Wide layout ~ a 12 column grid per project
    Title and meta share the top row; media and prose flow two-up beneath it.
    -------------------------------------------------------------------------- */
 
@@ -345,7 +437,7 @@ figcaption {
 }
 
 /* --------------------------------------------------------------------------
-   7. Footer
+   8. Footer
    -------------------------------------------------------------------------- */
 
 footer {
@@ -387,7 +479,7 @@ footer a:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
-   8. Quick navigation ~ the section rail
+   9. Quick navigation ~ the section rail
    Wide screens get a standing index down the left edge; narrow ones fold the
    same list into a panel behind a button. Both are the same <nav>, so the
    markup (and the script that fills it) only has to exist once.
@@ -632,7 +724,7 @@ header {
 }
 
 /* --------------------------------------------------------------------------
-   9. Back to top
+   10. Back to top
    -------------------------------------------------------------------------- */
 
 .to-top {
@@ -682,7 +774,7 @@ header {
 }
 
 /* --------------------------------------------------------------------------
-   10. Motion preferences
+   11. Motion preferences
    -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {

@@ -37,9 +37,71 @@
           named projectname_NN.ext ~ lowercase, no spaces.
        2. Swap Larry's filenames, titles, meta, and text for yours,
           one project at a time. Check the browser after each swap.
-       3. Copy a whole <section> block to add more projects.
+       3. Copy a whole <section> block to add more projects, and add a
+          matching <li> to the contact sheet below so the new project
+          turns up in the overview too.
           Delete Larry's leftovers when you are done.
        ============================================================ -->
+
+    <!-- Contact sheet ~ the whole body of work on one screen, so a visitor can
+         pick what to read instead of scrolling past everything to find it.
+         The alt text is empty on purpose: the card's own text already names
+         the project, so a screen reader would otherwise say it twice. -->
+    <section class="sheet" aria-labelledby="sheet-title">
+      <h2 class="sheet__title" id="sheet-title">Projects</h2>
+      <ul class="sheet__grid">
+        <li>
+          <a class="sheet__card" href="#beach-demo">
+            <img class="sheet__thumb" src="media/chen_beachdemo_02.JPG" alt="">
+            <span class="sheet__name">Beach Demo</span>
+            <span class="sheet__meta">Unreal Engine 5 ~ 2024</span>
+          </a>
+        </li>
+        <li>
+          <a class="sheet__card" href="#the-descent">
+            <img class="sheet__thumb" src="media/chen_descent_cover.png" alt="">
+            <span class="sheet__name">The Descent</span>
+            <span class="sheet__meta">Javascript ~ 2026</span>
+          </a>
+        </li>
+        <li>
+          <a class="sheet__card" href="#wood-lantern">
+            <img class="sheet__thumb" src="media/chen_lantern_01.jpg" alt="">
+            <span class="sheet__name">Wood Lantern with 3D Printed Handle</span>
+            <span class="sheet__meta">Plywood and 3D printing ~ 2024</span>
+          </a>
+        </li>
+        <li>
+          <a class="sheet__card" href="#musebeats">
+            <img class="sheet__thumb" src="media/chen_muse_poster.jpg" alt="">
+            <span class="sheet__name">MuseBeats</span>
+            <span class="sheet__meta">Python ~ 2026</span>
+          </a>
+        </li>
+        <li>
+          <a class="sheet__card" href="#turtle-artwork">
+            <img class="sheet__thumb" src="media/chen_turtle_01.png" alt="">
+            <span class="sheet__name">Randomly Generated Artwork Program</span>
+            <span class="sheet__meta">Python ~ 2024</span>
+          </a>
+        </li>
+        <li>
+          <a class="sheet__card" href="#orbhit">
+            <img class="sheet__thumb" src="media/coverart.png" alt="">
+            <span class="sheet__name">Orbhit</span>
+            <span class="sheet__meta">Unity, C# ~ 2024</span>
+          </a>
+        </li>
+        <li>
+          <a class="sheet__card" href="#timekeeper">
+            <img class="sheet__thumb" src="media/x9I2P5.png" alt="">
+            <span class="sheet__name">Timekeeper</span>
+            <span class="sheet__meta">Unity, C# ~ 2024</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
 
     <section class="project" id="beach-demo">
       <h2>Beach Demo</h2>
@@ -110,7 +172,7 @@
     <section class="project" id="musebeats">
       <h2>MuseBeats</h2>
       <p class="meta">Python, klotho-cac package | 2026 | independent | Dylan Chen</p>
-      <video controls>
+      <video controls poster="media/chen_muse_poster.jpg">
         <source src="media/Recording 2026-08-27 152417.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
